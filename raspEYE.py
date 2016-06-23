@@ -5,13 +5,13 @@ import time
 import sys
 
 
-def takePicture(filename, sec=1, res=(2592, 1944)):
+def takePicture(filename="image.jpg", sec=1, res=(2592, 1944)):
 
     with picamera.PiCamera() as camera:
 
         camera.resolution = res
         camera.start_preview()
-        
+
         # Camera warm-up time
         time.sleep(sec)
         camera.capture(filename)
