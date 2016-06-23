@@ -5,7 +5,7 @@ import raspEYE
 
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-host = 'raspberrypi'
+host = '192.168.0.150'
 port = 12345
 s.bind((host, port))
 
@@ -19,3 +19,5 @@ while True:
     if command == 'capture':
         raspEYE.takePicture()
         c.send('Captured image'.encode())
+        image = open('image.jpg', 'rb')
+        c.send(image)
