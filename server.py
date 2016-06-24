@@ -19,5 +19,12 @@ while True:
     if command == 'capture':
         raspEYE.takePicture()
         c.send('Captured image'.encode())
-        image = open('image.jpg', 'rb')
-        c.send(image)
+        file = open('image.jpg', 'rb')
+        image = file.read(1024)
+        while image:
+            c.send(image)
+            image = file.read(1024)
+
+        file.close()
+
+    c.close()

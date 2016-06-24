@@ -9,10 +9,14 @@ port = 12345
 
 s.connect((host, port))
 s.send('capture'.encode())
-print(s.recv(1024).decode())
 
-image = s.recv(1024)
 file = open('image.jpg', 'wb')
-file.write(image)
 
+while True:
+    data = s.recv(1024)
+    if not data:
+        break
+    file.write(data)
+
+file.close()
 s.close()
