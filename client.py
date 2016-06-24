@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 import socket
+import socketHelper
+import fileHelper
 
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -9,31 +11,12 @@ port = 12345
 
 s.connect((host, port))
 
-
 data = input()
-s.send(data.encode())
-file = open('copy.png', 'wb')
-print('File opened')
+socketHelper.sendData(s, data.encode())
 
-length = int(s.recv(1024).decode())
-print(length)
-s.send('OK'.encode())
-
-data = b''
-
-while len(data) < length:
-    buffer = s.recv(1024)
-    if not buffer:
-        break
-    data += buffer
-
-file.write(data)
-
-file.close()
-print('File closed')
-
-msg = 'File received'
-s.send(msg.encode())
+data = socketHelper.recvData(s)
+fileHelper.writeFile(data, 'copy.jpg', 'wb')
+print('Finished')
 
 s.shutdown(socket.SHUT_RDWR)
 s.close()

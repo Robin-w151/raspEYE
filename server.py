@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 import socket
+import socketHelper
+import fileHelper
 
 
 def createServer(host, port):
@@ -10,38 +12,15 @@ def createServer(host, port):
     s.listen(1)
 
     while True:
+
         c, address = s.accept()
         print('Connected to ', address)
-        command = c.recv(1024).decode()
+
+        command = socketHelper.recvData(c).decode()
         print(command)
 
-        file = open('test.png', 'rb')
-
-        data = b''
-
-        while True:
-            buffer = file.read(1024)
-            if not buffer:
-                break
-            data += buffer
-
-        file.close()
-
-        print(str(len(data)))
-        c.sendall(str(len(data)).encode())
-
-        if 'OK' != c.recv(1024).decode():
-            print('test')
-            break
-
-        c.sendall(data)
-        print('File sent')
-
-        ack = c.recv(1024).decode()
-        print(ack)
-
-        c.close()
-        print('Connection closed')
+        data = fileHelper.readFile('cat.jpg', 'rb')
+        socketHelper.sendData(c, data)
 
 
 if __name__ == '__main__':
