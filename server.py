@@ -1,30 +1,49 @@
 #!/usr/bin/env python3
 
 import socket
-import raspEYE
 
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-host = '192.168.0.150'
-port = 12345
-s.bind((host, port))
+def createServer(host, port):
 
-s.listen(1)
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind((host, port))
+    s.listen(1)
 
-while True:
-    c, addr = s.accept()
-    print('Connected to ', addr)
+    while True:
+        c, address = s.accept()
+        print('Connected to ', address)
+        command = c.recv(1024).decode()
+        print(command)
 
-    command = c.recv(1024).decode()
-    if command == 'capture':
-        raspEYE.takePicture()
-        c.send('Captured image'.encode())
-        file = open('image.jpg', 'rb')
-        image = file.read(1024)
-        while image:
-            c.send(image)
-            image = file.read(1024)
+        file = open('test.png', 'rb')
+
+        data = b''
+
+        while True:
+            buffer = file.read(1024)
+            if not buffer:
+                break
+            data += buffer
 
         file.close()
 
-    c.close()
+        print(str(len(data)))
+        c.sendall(str(len(data)).encode())
+
+        if 'OK' != c.recv(1024).decode():
+            print('test')
+            break
+
+        c.sendall(data)
+        print('File sent')
+
+        ack = c.recv(1024).decode()
+        print(ack)
+
+        c.close()
+        print('Connection closed')
+
+
+if __name__ == '__main__':
+
+    createServer('127.0.0.1', 12345)
