@@ -16,6 +16,7 @@ socketHelper.sendData(s, data.encode())
 
 data = socketHelper.recvData(s)
 fileHelper.writeFile(data, 'copy.jpg', 'wb')
+
 print('Finished')
 
 s.shutdown(socket.SHUT_RDWR)

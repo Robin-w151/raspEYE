@@ -14,6 +14,11 @@ def sendData(connection, data):
     connection.sendall(data)
 
 
+def sendFile(connection, fileName):
+
+    file = open(fileName)
+
+
 def recvData(connection):
 
     length = int(connection.recv(1024).decode())
