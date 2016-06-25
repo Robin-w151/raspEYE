@@ -34,6 +34,16 @@ def saveImage():
         print('Saved ' + currentFileName)
 
 
+def deleteImage():
+
+    global currentFileName
+    global fileList
+
+    if currentFileName not in fileList:
+        fileList.append(currentFileName)
+        print('Deleted ' + currentFileName)
+
+
 def captureImage():
 
     global info
@@ -82,11 +92,15 @@ info.set('Ready')
 
 captureButton = tkinter.Button(main, text='Capture', font=('Arial', 14), command=captureImage)
 captureButton.config(height=2, width=15)
-captureButton.place(relx=0.4, rely=0.91, anchor=tkinter.CENTER)
+captureButton.place(relx=0.5, rely=0.91, anchor=tkinter.CENTER)
 
 saveButton = tkinter.Button(main, text='Save', font=('Arial', 14), command=saveImage)
 saveButton.config(height=2, width=15)
-saveButton.place(relx=0.6, rely=0.91, anchor=tkinter.CENTER)
+saveButton.place(relx=0.3, rely=0.91, anchor=tkinter.CENTER)
+
+deleteButton = tkinter.Button(main, text='Delete', font=('Arial', 14), command=deleteImage)
+deleteButton.config(height=2, width=15)
+deleteButton.place(relx=0.7, rely=0.91, anchor=tkinter.CENTER)
 
 infoLabel = tkinter.Label(main, textvariable=info, font=('Arial', 14))
 infoLabel.place(relx=0.5, rely=0.97, anchor=tkinter.CENTER)
