@@ -6,18 +6,20 @@ import fileHelper
 
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-host = '127.0.0.1'
+host = '192.168.0.150'
 port = 12345
 
 s.connect((host, port))
 
 
-data = input('Enter command: ')
-socketHelper.sendData(s, data.encode())
+command = input('Enter command: ')
+socketHelper.sendData(s, command.encode())
 
-socketHelper.recvFile(s, 'copy.jpg')
+if command == "capture":
 
-print(socketHelper.recvData(s).decode())
+    fileName = socketHelper.recvData(s).decode()
+    socketHelper.recvFile(s, fileName)
+    print(socketHelper.recvData(s).decode())
 
 
 s.shutdown(socket.SHUT_RDWR)

@@ -2,7 +2,9 @@
 
 import socket
 import socketHelper
-import fileHelper
+import raspEYE
+import time
+import datetime
 
 
 def createServer(host, port):
@@ -17,13 +19,17 @@ def createServer(host, port):
         print('Connected to ', address)
 
         command = socketHelper.recvData(c).decode()
-        print(command)
 
-        socketHelper.sendFile(c, 'test.jpg')
+        if command == 'capture':
 
-        socketHelper.sendData(c, 'finished'.encode())
+            fileName = 'image ' + datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S') + '.jpg'
+            raspEYE.takePicture(fileName)
+
+            socketHelper.sendData(c, fileName.encode())
+            socketHelper.sendFile(c, fileName)
+            socketHelper.sendData(c, 'Finished'.encode())
 
 
 if __name__ == '__main__':
 
-    createServer('127.0.0.1', 12345)
+    createServer('192.168.0.150', 12345)
