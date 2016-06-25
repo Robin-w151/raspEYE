@@ -11,13 +11,19 @@ port = 12345
 
 s.connect((host, port))
 
-data = input()
+
+data = input('Enter command: ')
 socketHelper.sendData(s, data.encode())
 
+socketHelper.recvFile(s, 'copy.jpg')
+
+'''
 data = socketHelper.recvData(s)
 fileHelper.writeFile(data, 'copy.jpg', 'wb')
+'''
 
-print('Finished')
+print(socketHelper.recvData(s).decode())
+
 
 s.shutdown(socket.SHUT_RDWR)
 s.close()

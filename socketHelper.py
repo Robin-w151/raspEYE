@@ -6,30 +6,57 @@ import sys
 def sendData(connection, data):
 
     length = str(len(data))
-    connection.sendall(length.encode())
-
-    if 'ACK' != connection.recv(128).decode():
-        sys.exit(1)
+    data = length.encode() + b'\x00' + data
 
     connection.sendall(data)
+
+    if 'ACK' != connection.recv(3).decode():
+        sys.exit(1)
 
 
 def sendFile(connection, fileName):
 
-    file = open(fileName)
+    file = open(fileName, 'rb')
+
+    while True:
+
+        buffer = file.read(8192)
+        if not buffer:
+            break
+        sendData(connection, buffer)
+
+    file.close()
+
+    sendData(connection, b'EOF')
 
 
 def recvData(connection):
 
-    length = int(connection.recv(1024).decode())
-    connection.send('ACK'.encode())
-
-    data = b''
+    data = connection.recv(8192)
+    index = data.find(b'\x00')
+    length = int(data[:index].decode())
+    data = data[index + 1:]
 
     while len(data) < length:
-        buffer = connection.recv(1024)
+        buffer = connection.recv(8192)
         if not buffer:
             break
         data += buffer
 
+    connection.send('ACK'.encode())
+
     return data
+
+
+def recvFile(connection, fileName):
+
+    file = open(fileName, 'wb')
+
+    buffer = b''
+
+    while buffer != b'EOF':
+
+        buffer = recvData(connection)
+        file.write(buffer)
+
+    file.close()

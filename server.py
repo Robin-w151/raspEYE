@@ -19,8 +19,14 @@ def createServer(host, port):
         command = socketHelper.recvData(c).decode()
         print(command)
 
+        socketHelper.sendFile(c, 'test.jpg')
+
+        '''
         data = fileHelper.readFile('cat.jpg', 'rb')
         socketHelper.sendData(c, data)
+        '''
+
+        socketHelper.sendData(c, 'finished'.encode())
 
 
 if __name__ == '__main__':
