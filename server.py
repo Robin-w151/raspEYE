@@ -21,11 +21,6 @@ def createServer(host, port):
 
         socketHelper.sendFile(c, 'test.jpg')
 
-        '''
-        data = fileHelper.readFile('cat.jpg', 'rb')
-        socketHelper.sendData(c, data)
-        '''
-
         socketHelper.sendData(c, 'finished'.encode())
 
 

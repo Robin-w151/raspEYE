@@ -17,11 +17,6 @@ socketHelper.sendData(s, data.encode())
 
 socketHelper.recvFile(s, 'copy.jpg')
 
-'''
-data = socketHelper.recvData(s)
-fileHelper.writeFile(data, 'copy.jpg', 'wb')
-'''
-
 print(socketHelper.recvData(s).decode())
 
 
