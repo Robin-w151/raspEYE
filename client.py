@@ -2,24 +2,29 @@
 
 import socket
 import socketHelper
+import tkinter
 
-
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 host = '192.168.0.150'
 port = 12345
 
-s.connect((host, port))
+def captureImage():
 
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((host, port))
 
-command = input('Enter command: ')
-socketHelper.sendData(s, command.encode())
-
-if command == "capture":
+    socketHelper.sendData(s, 'capture'.encode())
 
     fileName = socketHelper.recvData(s).decode()
     socketHelper.recvFile(s, fileName)
     print(socketHelper.recvData(s).decode())
 
+    s.shutdown(socket.SHUT_RDWR)
+    s.close()
 
-s.shutdown(socket.SHUT_RDWR)
-s.close()
+
+main = tkinter.Tk()
+
+captureButton = tkinter.Button(main, text='Capture', command=captureImage)
+captureButton.pack()
+
+main.mainloop()
