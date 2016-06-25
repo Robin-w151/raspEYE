@@ -30,9 +30,10 @@ def captureImage():
     s.shutdown(socket.SHUT_RDWR)
     s.close()
 
-    image = tkinter.PhotoImage(file=fileName)
-    imageLabel = tkinter.Label(image=image)
+    img = tkinter.PhotoImage(file=fileName)
+    imageLabel = tkinter.Label(image=img)
     imageLabel.place(relx=0.5, rely=0.4, anchor=tkinter.CENTER)
+    imageLabel.image = img
 
     info.set('Finished')
     infoLabel.update_idletasks()
@@ -45,11 +46,13 @@ main.configure(background='light grey')
 info = tkinter.StringVar()
 info.set('Ready')
 
-captureButton = tkinter.Button(main, text='Capture', command=captureImage)
-captureButton.config(height=3, width=15)
-captureButton.place(relx=0.5, rely=0.9, anchor=tkinter.CENTER)
+captureButton = tkinter.Button(main, text='Capture', font=('Arial', 14), command=captureImage)
+captureButton.config(height=2, width=15)
+captureButton.place(relx=0.5, rely=0.91, anchor=tkinter.CENTER)
 
 infoLabel = tkinter.Label(main, textvariable=info, font=('Arial', 14))
-infoLabel.place(relx=0.5, rely=0.965, anchor=tkinter.CENTER)
+infoLabel.place(relx=0.5, rely=0.97, anchor=tkinter.CENTER)
+
+
 
 main.mainloop()
