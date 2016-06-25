@@ -27,7 +27,7 @@ def createServer(host, port):
         if command == 'capture':
 
             fileName = 'image ' + datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S') + '.png'
-            raspEYE.takePicture(fileName, res=(1000, 750))
+            raspEYE.takePicture(fileName,sec=0, res=(1000, 750))
             print('Picture taken')
 
             print('Start sending picture...')
