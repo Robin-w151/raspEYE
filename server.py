@@ -13,7 +13,7 @@ def createServer(host, port):
     s.bind((host, port))
     s.listen(1)
 
-    print('Listening to port ' + port)
+    print('Listening to port ' + str(port))
 
     while True:
 
