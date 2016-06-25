@@ -2,6 +2,7 @@
 
 import socket
 import socketHelper
+import sys
 import tkinter
 
 
@@ -25,7 +26,11 @@ def captureImage():
     infoLabel.update_idletasks()
     fileName = socketHelper.recvData(s).decode()
     socketHelper.recvFile(s, fileName)
-    print(socketHelper.recvData(s).decode())
+
+    if 'Finished' != socketHelper.recvData(s).decode():
+        sys.exit(-1)
+
+    print('Captured ' + fileName)
 
     s.shutdown(socket.SHUT_RDWR)
     s.close()
