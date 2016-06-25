@@ -76,7 +76,7 @@ def captureImage():
 
     img = tkinter.PhotoImage(file=fileName)
     imageLabel = tkinter.Label(image=img)
-    imageLabel.place(relx=0.5, rely=0.4, anchor=tkinter.CENTER)
+    imageLabel.place(relx=0.5, rely=0.43, anchor=tkinter.CENTER)
     imageLabel.image = img
 
     info.set('Finished')
@@ -84,11 +84,16 @@ def captureImage():
 
 main = tkinter.Tk()
 main.title('raspEYE')
-main.geometry('1000x800')
+main.geometry('1000x870')
 main.configure(background='light grey')
 
 info = tkinter.StringVar()
 info.set('Ready')
+
+img = tkinter.PhotoImage(file='logo.png')
+imageLabel = tkinter.Label(image=img)
+imageLabel.place(relx=0.5, rely=0.43, anchor=tkinter.CENTER)
+imageLabel.image = img
 
 captureButton = tkinter.Button(main, text='Capture', font=('Arial', 14), command=captureImage)
 captureButton.config(height=2, width=15)
