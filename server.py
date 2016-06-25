@@ -5,6 +5,7 @@ import socketHelper
 import raspEYE
 import time
 import datetime
+import os
 
 
 def createServer(host, port):
@@ -34,6 +35,8 @@ def createServer(host, port):
             socketHelper.sendFile(c, fileName)
             socketHelper.sendData(c, 'Finished'.encode())
             print('Finished sending')
+
+            os.remove(fileName)
 
 
 if __name__ == '__main__':
