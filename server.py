@@ -19,7 +19,7 @@ def createServer(host, port):
     while True:
 
         c, address = s.accept()
-        print('Connected to ', address)
+        print('Connected to ' + address[0] + ':' + str(address[1]))
 
         command = socketHelper.recvData(c).decode()
         print('Command received: ' + command)
