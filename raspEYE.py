@@ -5,7 +5,7 @@ import time
 import sys
 
 
-def takePicture(filename="image.jpg", sec=1, res=(2592, 1944)):
+def takePicture(filename="image.png", sec=1, res=(2592, 1944)):
 
     with picamera.PiCamera() as camera:
 
@@ -14,7 +14,7 @@ def takePicture(filename="image.jpg", sec=1, res=(2592, 1944)):
 
         # Camera warm-up time
         time.sleep(sec)
-        camera.capture(filename)
+        camera.capture(filename, format='png')
 
 if __name__ == "__main__":
 
@@ -23,7 +23,7 @@ if __name__ == "__main__":
         if "-f" in sys.argv:
             filename = sys.argv[sys.argv.index("-f") + 1]
         else:
-            filename = "image.jpg"
+            filename = "image.png"
 
         if "-r" in sys.argv:
             res = (int(sys.argv [sys.argv.index("-r") + 1]), int(sys.argv [sys.argv.index("-r") + 2]))
