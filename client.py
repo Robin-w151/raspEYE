@@ -23,6 +23,9 @@ def captureImage():
 
 
 main = tkinter.Tk()
+main.title('raspEYE')
+main.geometry('300x300')
+main.configure(background='grey')
 
 captureButton = tkinter.Button(main, text='Capture', command=captureImage)
 captureButton.pack()
