@@ -45,3 +45,4 @@ if __name__ == '__main__':
     thread1 = threading.Thread(target=createServer, args=('192.168.0.150', 12345))
     thread1.daemon = True
     thread1.start()
+    thread1.join()
