@@ -20,6 +20,7 @@ def onExit():
     for file in fileList:
         if os.path.isfile(file):
             os.remove(file)
+            print('Removed ' + file)
 
     main.destroy()
 
