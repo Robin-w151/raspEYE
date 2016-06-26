@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 
-import socket
-import socketHelper
-import raspEYE
-import time
 import datetime
 import os
+import raspEYE
+import socket
+import socketHelper
+import threading
+import time
 
 
 def createServer(host, port):
@@ -41,4 +42,6 @@ def createServer(host, port):
 
 if __name__ == '__main__':
 
-    createServer('192.168.0.150', 12345)
+    thread1 = threading.Thread(target=createServer, args=('192.168.0.150', 12345))
+    thread1.daemon = True
+    thread1.start()
