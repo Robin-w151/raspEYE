@@ -49,6 +49,7 @@ def captureImage():
     global info
     global currentFileName
     global fileList
+    global imageLabel
 
     info.set('Connecting')
     infoLabel.update_idletasks()
@@ -75,8 +76,7 @@ def captureImage():
     s.close()
 
     img = tkinter.PhotoImage(file=fileName)
-    imageLabel = tkinter.Label(image=img)
-    imageLabel.place(relx=0.5, rely=0.43, anchor=tkinter.CENTER)
+    imageLabel.config(image=img)
     imageLabel.image = img
 
     info.set('Finished')
