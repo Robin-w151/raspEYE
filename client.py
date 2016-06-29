@@ -108,7 +108,7 @@ class Application:
         s.close()
 
         img = tkinter.PhotoImage(file=fileName)
-        img.subsample(1000, 750)
+        # img.subsample(1000, 750)
         self.imageLabel.config(image=img)
         self.imageLabel.image = img
 
