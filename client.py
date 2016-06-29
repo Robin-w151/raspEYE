@@ -7,109 +7,105 @@ import sys
 import tkinter
 
 
-host = '192.168.0.150'
-port = 12345
+class Application:
 
-currentFileName = ''
-fileList = []
+    def __init__(self):
 
-def onExit():
+        self.host = '192.168.0.150'
+        self.port = 12345
+        self.currentFileName = ''
+        self.fileList = []
 
-    global fileList
+        self.main = tkinter.Tk()
+        self.main.title('raspEYE')
+        self.main.geometry('1000x870')
+        self.main.configure(background='light grey')
 
-    for file in fileList:
-        if os.path.isfile(file):
-            os.remove(file)
-            print('Removed ' + file)
+        self.info = tkinter.StringVar()
+        self.info.set('Ready')
 
-    main.destroy()
+        img = tkinter.PhotoImage(file='logo.png')
+        self.imageLabel = tkinter.Label(image=img)
+        self.imageLabel.place(relx=0.5, rely=0.43, anchor=tkinter.CENTER)
+        self.imageLabel.image = img
+
+        self.captureButton = tkinter.Button(self.main, text='Capture', font=('Arial', 14), command=self.captureImage)
+        self.captureButton.config(height=2, width=15)
+        self.captureButton.place(relx=0.5, rely=0.91, anchor=tkinter.CENTER)
+
+        self.saveButton = tkinter.Button(self.main, text='Save', font=('Arial', 14), command=self.saveImage)
+        self.saveButton.config(height=2, width=15)
+        self.saveButton.place(relx=0.3, rely=0.91, anchor=tkinter.CENTER)
+
+        self.deleteButton = tkinter.Button(self.main, text='Delete', font=('Arial', 14), command=self.deleteImage)
+        self.deleteButton.config(height=2, width=15)
+        self.deleteButton.place(relx=0.7, rely=0.91, anchor=tkinter.CENTER)
+
+        self.infoLabel = tkinter.Label(self.main, textvariable=self.info, font=('Arial', 14))
+        self.infoLabel.place(relx=0.5, rely=0.97, anchor=tkinter.CENTER)
+
+        self.main.wm_protocol('WM_DELETE_WINDOW', self.onExit)
+
+    def start(self):
+
+        self.main.mainloop()
+
+    def onExit(self):
+
+        for file in self.fileList:
+            if os.path.isfile(file):
+                os.remove(file)
+                print('Removed ' + file)
+
+        self.main.destroy()
+
+    def saveImage(self):
+
+        if self.currentFileName in self.fileList:
+            self.fileList.remove(self.currentFileName)
+            print('Saved ' + self.currentFileName)
+
+    def deleteImage(self):
+
+        if self.currentFileName not in self.fileList:
+            self.fileList.append(self.currentFileName)
+            print('Deleted ' + self.currentFileName)
+
+    def captureImage(self):
+
+        self.info.set('Connecting')
+        self.infoLabel.update_idletasks()
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.connect((self.host, self.port))
+
+        self.info.set('Sending command')
+        self.infoLabel.update_idletasks()
+        socketHelper.sendData(s, 'capture'.encode())
+
+        self.info.set('Receiving data')
+        self.infoLabel.update_idletasks()
+        fileName = socketHelper.recvData(s).decode()
+        self.currentFileName = fileName
+        self.fileList.append(fileName)
+        socketHelper.recvFile(s, fileName)
+
+        if 'Finished' != socketHelper.recvData(s).decode():
+            sys.exit(-1)
+
+        print('Captured ' + fileName)
+
+        s.shutdown(socket.SHUT_RDWR)
+        s.close()
+
+        img = tkinter.PhotoImage(file=fileName)
+        self.imageLabel.config(image=img)
+        self.imageLabel.image = img
+
+        self.info.set('Finished')
+        self.infoLabel.update_idletasks()
 
 
-def saveImage():
+if __name__ == "__main__":
 
-    global currentFileName
-    global fileList
-
-    if currentFileName in fileList:
-        fileList.remove(currentFileName)
-        print('Saved ' + currentFileName)
-
-
-def deleteImage():
-
-    global currentFileName
-    global fileList
-
-    if currentFileName not in fileList:
-        fileList.append(currentFileName)
-        print('Deleted ' + currentFileName)
-
-
-def captureImage():
-
-    global info
-    global currentFileName
-    global fileList
-    global imageLabel
-
-    info.set('Connecting')
-    infoLabel.update_idletasks()
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect((host, port))
-
-    info.set('Sending command')
-    infoLabel.update_idletasks()
-    socketHelper.sendData(s, 'capture'.encode())
-
-    info.set('Receiving data')
-    infoLabel.update_idletasks()
-    fileName = socketHelper.recvData(s).decode()
-    currentFileName = fileName
-    fileList.append(fileName)
-    socketHelper.recvFile(s, fileName)
-
-    if 'Finished' != socketHelper.recvData(s).decode():
-        sys.exit(-1)
-
-    print('Captured ' + fileName)
-
-    s.shutdown(socket.SHUT_RDWR)
-    s.close()
-
-    img = tkinter.PhotoImage(file=fileName)
-    imageLabel.config(image=img)
-    imageLabel.image = img
-
-    info.set('Finished')
-    infoLabel.update_idletasks()
-
-main = tkinter.Tk()
-main.title('raspEYE')
-main.geometry('1000x870')
-main.configure(background='light grey')
-
-info = tkinter.StringVar()
-info.set('Ready')
-
-img = tkinter.PhotoImage(file='logo.png')
-imageLabel = tkinter.Label(image=img)
-imageLabel.place(relx=0.5, rely=0.43, anchor=tkinter.CENTER)
-imageLabel.image = img
-
-captureButton = tkinter.Button(main, text='Capture', font=('Arial', 14), command=captureImage)
-captureButton.config(height=2, width=15)
-captureButton.place(relx=0.5, rely=0.91, anchor=tkinter.CENTER)
-
-saveButton = tkinter.Button(main, text='Save', font=('Arial', 14), command=saveImage)
-saveButton.config(height=2, width=15)
-saveButton.place(relx=0.3, rely=0.91, anchor=tkinter.CENTER)
-
-deleteButton = tkinter.Button(main, text='Delete', font=('Arial', 14), command=deleteImage)
-deleteButton.config(height=2, width=15)
-deleteButton.place(relx=0.7, rely=0.91, anchor=tkinter.CENTER)
-
-infoLabel = tkinter.Label(main, textvariable=info, font=('Arial', 14))
-infoLabel.place(relx=0.5, rely=0.97, anchor=tkinter.CENTER)
-
-main.wm_protocol('WM_DELETE_WINDOW', onExit)
-main.mainloop()
+    application = Application()
+    application.start()
