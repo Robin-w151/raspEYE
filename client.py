@@ -24,7 +24,7 @@ class Application:
         self.info = tkinter.StringVar()
         self.info.set('Ready')
 
-        img = tkinter.PhotoImage(file='logo.png')
+        img = tkinter.PhotoImage(file='Assets/Graphics/logo.png')
         self.imageLabel = tkinter.Label(image=img)
         self.imageLabel.place(relx=0.5, rely=0.43, anchor=tkinter.CENTER)
         self.imageLabel.image = img
@@ -53,8 +53,8 @@ class Application:
     def onExit(self):
 
         for file in self.fileList:
-            if os.path.isfile(file):
-                os.remove(file)
+            if os.path.isfile('Saves/' + file):
+                os.remove('Saves/' + file)
                 print('Removed ' + file)
 
         self.main.destroy()
@@ -97,7 +97,7 @@ class Application:
         fileName = socketHelper.recvData(s).decode()
         self.currentFileName = fileName
         self.fileList.append(fileName)
-        socketHelper.recvFile(s, fileName)
+        socketHelper.recvFile(s, 'Saves/' + fileName)
 
         if 'Finished' != socketHelper.recvData(s).decode():
             sys.exit(-1)
@@ -107,7 +107,7 @@ class Application:
         s.shutdown(socket.SHUT_RDWR)
         s.close()
 
-        img = tkinter.PhotoImage(file=fileName)
+        img = tkinter.PhotoImage(file='Saves/' + fileName)
         # img.subsample(1000, 750)
         self.imageLabel.config(image=img)
         self.imageLabel.image = img
