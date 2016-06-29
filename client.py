@@ -76,7 +76,14 @@ class Application:
         self.info.set('Connecting')
         self.infoLabel.update_idletasks()
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.connect((self.host, self.port))
+        status = s.connect_ex((self.host, self.port))
+
+        if status != 0:
+            self.info.set('Could not connect')
+            self.infoLabel.update_idletasks()
+            s.shutdown(socket.SHUT_RDWR)
+            s.close()
+            return
 
         self.info.set('Sending command')
         self.infoLabel.update_idletasks()
