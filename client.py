@@ -13,7 +13,7 @@ class Application:
 
         self.host = '192.168.0.150'
         self.port = 12345
-        self.currentFileName = ''
+        self.currentFileName = None
         self.fileList = []
 
         self.main = tkinter.Tk()
@@ -61,13 +61,13 @@ class Application:
 
     def saveImage(self):
 
-        if self.currentFileName in self.fileList:
+        if self.currentFileName and self.currentFileName in self.fileList:
             self.fileList.remove(self.currentFileName)
             print('Saved ' + self.currentFileName)
 
     def deleteImage(self):
 
-        if self.currentFileName not in self.fileList:
+        if self.currentFileName and self.currentFileName not in self.fileList:
             self.fileList.append(self.currentFileName)
             print('Deleted ' + self.currentFileName)
 
@@ -76,7 +76,10 @@ class Application:
         self.info.set('Connecting')
         self.infoLabel.update_idletasks()
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+        s.settimeout(5)
         status = s.connect_ex((self.host, self.port))
+        s.settimeout(None)
 
         if status != 0:
             self.info.set('Could not connect')
