@@ -40,6 +40,8 @@ def createServer(host, port):
 
             os.remove(fileName)
 
+        print('Disconnected from ' + address[0] + ':' + str(address[1]))
+
 
 if __name__ == '__main__':
 
