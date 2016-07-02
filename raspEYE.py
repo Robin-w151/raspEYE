@@ -2,9 +2,10 @@
 
 import io
 import picamera
-import PIL
 import sys
 import time
+
+from PIL import Image
 
 
 def takePicture(filename="image.png", sec=1, res=(2592, 1944)):
@@ -21,8 +22,7 @@ def takePicture(filename="image.png", sec=1, res=(2592, 1944)):
         camera.capture(stream, format='png')
 
         stream.seek(0)
-        print('test')
-        image = PIL.Image.open(stream).convert('LA')
+        image = Image.open(stream).convert('LA')
         image.save(filename)
 
 if __name__ == "__main__":
