@@ -13,20 +13,20 @@ class LoginView:
 
         self.ipLabel = tkinter.Label(self.frame, text='Address', font=self.font, width=7)
         self.ipLabel.configure(background='light gray')
-        self.ipLabel.place(relx=0.45, rely=0.45, anchor=tkinter.CENTER)
+        self.ipLabel.place(relx=0.40, rely=0.45, anchor=tkinter.W)
 
         self.ipText = tkinter.StringVar()
         self.ipText.set('192.168.1.150')
-        self.ipEntry = tkinter.Entry(self.frame, width=10, font=self.font, textvariable=self.ipText)
+        self.ipEntry = tkinter.Entry(self.frame, width=12, font=self.font, textvariable=self.ipText)
         self.ipEntry.place(relx=0.55, rely=0.45, anchor=tkinter.CENTER)
 
-        self.portLabel = tkinter.Label(self.frame, text='Port', font=self.font, width=7)
+        self.portLabel = tkinter.Label(self.frame, text='Port', font=self.font, width=4)
         self.portLabel.configure(background='light gray')
-        self.portLabel.place(relx=0.45, rely=0.5, anchor=tkinter.CENTER)
+        self.portLabel.place(relx=0.43, rely=0.5, anchor=tkinter.W)
 
         self.portText = tkinter.StringVar()
         self.portText.set('12345')
-        self.portEntry = tkinter.Entry(self.frame, width=10, font=self.font, textvariable=self.portText)
+        self.portEntry = tkinter.Entry(self.frame, width=12, font=self.font, textvariable=self.portText)
         self.portEntry.place(relx=0.55, rely=0.5, anchor=tkinter.CENTER)
 
         self.button = tkinter.Button(self.frame, text='Connect', font=self.font, command=self.connect)
