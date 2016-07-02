@@ -19,7 +19,7 @@ class Application:
         self.main = tkinter.Tk()
         self.main.title('raspEYE')
         self.main.geometry('1000x870')
-        self.main.configure(background='light grey')
+        self.main.configure(background='white')
 
         self.info = tkinter.StringVar()
         self.info.set('Ready')
