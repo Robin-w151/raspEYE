@@ -23,7 +23,8 @@ def createServer(host, port):
         print('Connected to ' + address[0] + ':' + str(address[1]))
 
         command = socketHelper.recvData(c).decode()
-        print('Command received: ' + command)
+        if command != '':
+            print('Command received: ' + command)
 
         if command == 'capture':
 
