@@ -9,10 +9,10 @@ import tkinter
 
 class Application:
 
-    def __init__(self):
+    def __init__(self, address, port):
 
-        self.host = '192.168.1.150'
-        self.port = 12345
+        self.host = address
+        self.port = port
         self.currentFileName = None
         self.fileList = []
 
@@ -118,5 +118,5 @@ class Application:
 
 if __name__ == "__main__":
 
-    application = Application()
+    application = Application('192.168.1.150', 12345)
     application.start()
