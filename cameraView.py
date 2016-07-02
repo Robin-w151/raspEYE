@@ -81,7 +81,7 @@ class CameraView:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.settimeout(5)
         status = s.connect_ex((self.host, self.port))
-        s.settimeout(5)
+        s.settimeout(None)
 
         if status != 0:
             print(status)
