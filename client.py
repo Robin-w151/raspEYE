@@ -19,7 +19,7 @@ class Application:
         self.main = tkinter.Tk()
         self.main.title('raspEYE')
         self.main.geometry('1000x870')
-        self.main.configure(background='white')
+        self.main.configure(background='light gray')
 
         self.info = tkinter.StringVar()
         self.info.set('Ready')
@@ -41,7 +41,8 @@ class Application:
         self.deleteButton.config(height=2, width=15)
         self.deleteButton.place(relx=0.7, rely=0.91, anchor=tkinter.CENTER)
 
-        self.infoLabel = tkinter.Label(self.main, textvariable=self.info, font=('Arial', 14))
+        self.infoLabel = tkinter.Label(self.main, textvariable=self.info, font=('Arial', 14), width=20)
+        self.infoLabel.configure(background='light gray')
         self.infoLabel.place(relx=0.5, rely=0.97, anchor=tkinter.CENTER)
 
         self.main.wm_protocol('WM_DELETE_WINDOW', self.onExit)
