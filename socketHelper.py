@@ -37,7 +37,7 @@ def recvData(connection):
     length = data[:index].decode()
 
     if not isinstance(length, int):
-        return ''
+        return b''
 
     data = data[index + 1:]
 
