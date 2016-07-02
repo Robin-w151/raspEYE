@@ -52,9 +52,14 @@ class Application:
 
     def onExit(self):
 
+        if os.name == 'nt':
+            path = os.path.dirname(__file__) + '/Saves/'
+        else:
+            path = 'Saves/'
+
         for file in self.fileList:
-            if os.path.isfile('Saves/' + file):
-                os.remove('Saves/' + file)
+            if os.path.isfile(path + file):
+                os.remove(path + file)
                 print('Removed ' + file)
 
         self.main.destroy()
@@ -82,6 +87,7 @@ class Application:
         s.settimeout(None)
 
         if status != 0:
+            print(status)
             self.info.set('Could not connect')
             self.infoLabel.update_idletasks()
             s.shutdown(socket.SHUT_RDWR)
@@ -94,10 +100,20 @@ class Application:
 
         self.info.set('Receiving data')
         self.infoLabel.update_idletasks()
+
         fileName = socketHelper.recvData(s).decode()
+        if os.name == 'nt':
+            fileName = fileName.replace(':', '')
+
         self.currentFileName = fileName
         self.fileList.append(fileName)
-        socketHelper.recvFile(s, 'Saves/' + fileName)
+
+        if os.name == 'nt':
+            path = os.path.dirname(__file__) + '/Saves/'
+        else:
+            path = 'Saves/'
+
+        socketHelper.recvFile(s, path + fileName)
 
         if 'Finished' != socketHelper.recvData(s).decode():
             sys.exit(-1)
