@@ -34,10 +34,14 @@ def recvData(connection):
 
     data = connection.recv(8192)
     index = data.find(b'\x00')
-    length = int(data[:index].decode())
+    length = data[:index].decode()
+
+    if not isinstance(length, int):
+        return
+
     data = data[index + 1:]
 
-    while len(data) < length:
+    while len(data) < int(length):
         buffer = connection.recv(8192)
         if not buffer:
             break
