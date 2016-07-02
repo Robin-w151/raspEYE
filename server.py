@@ -22,6 +22,8 @@ def createServer(host, port):
         c, address = s.accept()
         print('Connected to ' + address[0] + ':' + str(address[1]))
 
+        c.settimeout(5)
+
         command = socketHelper.recvData(c).decode()
         print('Command received: ' + command)
 

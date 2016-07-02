@@ -2,6 +2,7 @@
 
 import cameraView
 import loginView
+import socket
 import tkinter
 
 
@@ -27,11 +28,24 @@ class Application:
 
         self.window.mainloop()
 
-    def login(self, password):
+    def connect(self, ip, port):
 
-        self.mainFrame.exit()
-        self.mainFrame = cameraView.CameraView(self, self.address, self.port)
-        self.mainFrame.start()
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.settimeout(5)
+        status = s.connect_ex((ip, int(port)))
+        s.settimeout(None)
+
+        if status != 0:
+            self.mainFrame.status.set('Could not connect')
+            self.mainFrame.statusLabel.update_idletasks()
+
+        else:
+            self.mainFrame.exit()
+            self.mainFrame = cameraView.CameraView(self, self.address, self.port)
+            self.mainFrame.start()
+
+        s.shutdown(socket.SHUT_RDWR)
+        s.close()
 
     def exit(self):
 

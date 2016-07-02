@@ -77,8 +77,8 @@ class CameraView:
 
         self.info.set('Connecting')
         self.infoLabel.update_idletasks()
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.settimeout(5)
         status = s.connect_ex((self.host, self.port))
         s.settimeout(None)

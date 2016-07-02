@@ -6,24 +6,42 @@ class LoginView:
     def __init__(self, main):
 
         self.main = main
+        self.font = ('Arial', 14)
 
         self.frame = tkinter.Frame(master=self.main.window, width=1000, height=870)
         self.frame.configure(background='light gray')
 
-        self.password = tkinter.Entry(self.frame, show='*', width=16, font=('Arial', 14))
-        self.password.place(relx=0.5, rely=0.5, anchor=tkinter.CENTER)
+        self.ipLabel = tkinter.Label(self.frame, text='Address', font=self.font, width=7)
+        self.ipLabel.configure(background='light gray')
+        self.ipLabel.place(relx=0.45, rely=0.45, anchor=tkinter.CENTER)
 
-        self.button = tkinter.Button(self.frame, text='Log In', font=('Arial', 14), command=self.login)
+        self.ipEntry = tkinter.Entry(self.frame, width=10, font=self.font)
+        self.ipEntry.place(relx=0.55, rely=0.45, anchor=tkinter.CENTER)
+
+        self.portLabel = tkinter.Label(self.frame, text='Port', font=self.font, width=7)
+        self.portLabel.configure(background='light gray')
+        self.portLabel.place(relx=0.45, rely=0.5, anchor=tkinter.CENTER)
+
+        self.portEntry = tkinter.Entry(self.frame, width=10, font=self.font)
+        self.portEntry.place(relx=0.55, rely=0.5, anchor=tkinter.CENTER)
+
+        self.button = tkinter.Button(self.frame, text='Connect', font=self.font, command=self.connect)
         self.button.config(height=2, width=15)
         self.button.place(relx=0.5, rely=0.6, anchor=tkinter.CENTER)
+
+        self.status = tkinter.StringVar()
+        self.statusLabel = tkinter.Label(self.frame, textvariable=self.status, font=self.font, width=20)
+        self.statusLabel.configure(background='light gray')
+        self.statusLabel.place(relx=0.5, rely=0.65, anchor=tkinter.CENTER)
 
     def start(self):
 
         self.frame.pack()
 
-    def login(self):
+    def connect(self):
 
-        self.main.login('')
+        if self.ipEntry.get() != '' and self.portEntry.get() != '':
+            self.main.connect(self.ipEntry.get(), self.portEntry.get())
 
     def exit(self):
 
