@@ -36,7 +36,7 @@ def recvData(connection):
     index = data.find(b'\x00')
     length = data[:index].decode()
 
-    if not isinstance(length, int):
+    if not length.isnumeric():
         return b''
 
     data = data[index + 1:]

@@ -32,7 +32,7 @@ class Application:
 
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.settimeout(5)
-        status = s.connect_ex((ip, int(port)))
+        status = s.connect_ex((ip, port))
         s.settimeout(None)
 
         if status != 0:
@@ -41,7 +41,7 @@ class Application:
 
         else:
             self.mainFrame.exit()
-            self.mainFrame = cameraView.CameraView(self, self.address, self.port)
+            self.mainFrame = cameraView.CameraView(self, ip, port)
             self.mainFrame.start()
 
         s.shutdown(socket.SHUT_RDWR)

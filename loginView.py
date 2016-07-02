@@ -15,14 +15,18 @@ class LoginView:
         self.ipLabel.configure(background='light gray')
         self.ipLabel.place(relx=0.45, rely=0.45, anchor=tkinter.CENTER)
 
-        self.ipEntry = tkinter.Entry(self.frame, width=10, font=self.font)
+        self.ipText = tkinter.StringVar()
+        self.ipText.set('192.168.1.150')
+        self.ipEntry = tkinter.Entry(self.frame, width=10, font=self.font, textvariable=self.ipText)
         self.ipEntry.place(relx=0.55, rely=0.45, anchor=tkinter.CENTER)
 
         self.portLabel = tkinter.Label(self.frame, text='Port', font=self.font, width=7)
         self.portLabel.configure(background='light gray')
         self.portLabel.place(relx=0.45, rely=0.5, anchor=tkinter.CENTER)
 
-        self.portEntry = tkinter.Entry(self.frame, width=10, font=self.font)
+        self.portText = tkinter.StringVar()
+        self.portText.set('12345')
+        self.portEntry = tkinter.Entry(self.frame, width=10, font=self.font, textvariable=self.portText)
         self.portEntry.place(relx=0.55, rely=0.5, anchor=tkinter.CENTER)
 
         self.button = tkinter.Button(self.frame, text='Connect', font=self.font, command=self.connect)
@@ -41,7 +45,7 @@ class LoginView:
     def connect(self):
 
         if self.ipEntry.get() != '' and self.portEntry.get() != '':
-            self.main.connect(self.ipEntry.get(), self.portEntry.get())
+            self.main.connect(self.ipEntry.get(), int(self.portEntry.get()))
 
     def exit(self):
 
