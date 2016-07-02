@@ -11,7 +11,7 @@ class Application:
 
     def __init__(self):
 
-        self.host = '192.168.0.150'
+        self.host = '192.168.1.150'
         self.port = 12345
         self.currentFileName = None
         self.fileList = []
