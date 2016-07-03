@@ -68,7 +68,7 @@ class Server(threading.Thread):
 
 if __name__ == '__main__':
 
-    server = Server('192.168.1.150', 12345)
+    server = Server(socket.gethostbyname(socket.gethostname()), 12345)
     server.start()
 
     while True:
