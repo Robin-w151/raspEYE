@@ -30,10 +30,12 @@ class Server:
             if command != '':
                 print('Command received: ' + command)
 
-            if command == 'capture':
+            command = command.split(' ')
+
+            if command[0] == 'capture':
 
                 fileName = 'image ' + datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S') + '.png'
-                raspEYE.takePicture(fileName, sec=0, res=(1000, 750), bw=False)
+                raspEYE.takePicture(fileName, sec=0, res=(1000, 750), bw=(True if 'true' in command else False))
                 print('Picture taken')
 
                 print('Start sending picture...')
