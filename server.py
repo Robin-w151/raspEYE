@@ -30,6 +30,8 @@ class Server(threading.Thread):
 
         while True:
 
+            print('test')
+            self.s.settimeout(10)
             c, address = self.s.accept()
             print('Connected to ' + address[0] + ':' + str(address[1]))
 
