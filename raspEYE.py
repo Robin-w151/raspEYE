@@ -19,7 +19,7 @@ def takePicture(filename="image.png", sec=1, res=(2592, 1944), bw=True):
 
         # Camera warm-up time
         time.sleep(sec)
-        camera.capture(stream, format='rgb')
+        camera.capture(stream, format='png')
 
         stream.seek(0)
         image = Image.open(stream)
