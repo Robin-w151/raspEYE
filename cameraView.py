@@ -95,12 +95,15 @@ class CameraView:
         self.infoLabel.update_idletasks()
         socketHelper.sendData(s, 'capture'.encode())
 
-        self.info.set('Receiving data')
+        self.info.set('Capturing')
         self.infoLabel.update_idletasks()
 
         fileName = socketHelper.recvData(s).decode()
         if os.name == 'nt':
             fileName = fileName.replace(':', '')
+
+        self.info.set('Receiving Data')
+        self.infoLabel.update_idletasks()
 
         self.currentFileName = fileName
         self.fileList.append(fileName)

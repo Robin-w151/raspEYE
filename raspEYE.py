@@ -8,7 +8,7 @@ import time
 from PIL import Image
 
 
-def takePicture(filename="image.png", sec=1, res=(2592, 1944)):
+def takePicture(filename="image.png", sec=1, res=(2592, 1944), bw=True):
 
     with picamera.PiCamera() as camera:
 
@@ -22,7 +22,11 @@ def takePicture(filename="image.png", sec=1, res=(2592, 1944)):
         camera.capture(stream, format='png')
 
         stream.seek(0)
-        image = Image.open(stream).convert('LA')
+        image = Image.open(stream)
+
+        if bw:
+            image = image.convert('LA')
+
         image.save(filename)
 
 if __name__ == "__main__":
