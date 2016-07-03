@@ -9,43 +9,50 @@ import threading
 import time
 
 
-def createServer(host, port):
+class Server:
 
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.bind((host, port))
-    s.listen(1)
+    def __init__(self, host, port):
 
-    print('Listening to port ' + str(port))
+        self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.s.bind((host, port))
+        self.s.listen(1)
 
-    while True:
+        print('Listening to port ' + str(port))
 
-        c, address = s.accept()
-        print('Connected to ' + address[0] + ':' + str(address[1]))
+    def run(self):
 
-        command = socketHelper.recvData(c).decode()
-        if command != '':
-            print('Command received: ' + command)
+        while True:
 
-        if command == 'capture':
+            c, address = self.s.accept()
+            print('Connected to ' + address[0] + ':' + str(address[1]))
 
-            fileName = 'image ' + datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S') + '.png'
-            raspEYE.takePicture(fileName, sec=0, res=(1000, 750), bw=False)
-            print('Picture taken')
+            command = socketHelper.recvData(c).decode()
+            if command != '':
+                print('Command received: ' + command)
 
-            print('Start sending picture...')
-            socketHelper.sendData(c, fileName.encode())
-            socketHelper.sendFile(c, fileName)
-            socketHelper.sendData(c, 'Finished'.encode())
-            print('Finished sending')
+            if command == 'capture':
 
-            os.remove(fileName)
+                fileName = 'image ' + datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S') + '.png'
+                raspEYE.takePicture(fileName, sec=0, res=(1000, 750), bw=False)
+                print('Picture taken')
 
-        print('Disconnected from ' + address[0] + ':' + str(address[1]))
+                print('Start sending picture...')
+                socketHelper.sendData(c, fileName.encode())
+                socketHelper.sendFile(c, fileName)
+                socketHelper.sendData(c, 'Finished'.encode())
+                print('Finished sending')
+
+                os.remove(fileName)
+
+            print('Disconnected from ' + address[0] + ':' + str(address[1]))
+
+    def __exit__(self):
+
+        self.s.shutdown(socket.SHUT_RDWR)
+        self.s.close()
 
 
 if __name__ == '__main__':
 
-    thread1 = threading.Thread(target=createServer, args=('192.168.1.150', 12345))
-    thread1.daemon = True
-    thread1.start()
-    thread1.join()
+    server = Server('192.168.1.150', 12345)
+    server.run()
