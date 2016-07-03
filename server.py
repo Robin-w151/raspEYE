@@ -16,6 +16,8 @@ class Server(threading.Thread):
 
         threading.Thread.__init__(self)
 
+        self.isStopped = False
+
         self.host = host
         self.port = port
 
@@ -28,11 +30,13 @@ class Server(threading.Thread):
 
     def run(self):
 
-        while True:
+        while not self.isStopped:
 
-            print('test')
-            self.s.settimeout(10)
             c, address = self.s.accept()
+
+            if self.isStopped:
+                return
+
             print('Connected to ' + address[0] + ':' + str(address[1]))
 
             command = socketHelper.recvData(c).decode()
@@ -41,14 +45,7 @@ class Server(threading.Thread):
 
             command = command.split(' ')
 
-            if command[0] == 'exit':
-
-                socketHelper.sendData(c, 'exit'.encode())
-
-                self.s.shutdown(socket.SHUT_RDWR)
-                self.s.close()
-
-            elif command[0] == 'capture':
+            if command[0] == 'capture':
 
                 fileName = 'image ' + datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S') + '.png'
                 raspEYE.takePicture(fileName, sec=0, res=(1000, 750), bw=(True if 'true' in command else False))
@@ -63,6 +60,10 @@ class Server(threading.Thread):
                 os.remove(fileName)
 
             print('Disconnected from ' + address[0] + ':' + str(address[1]))
+
+    def stop(self):
+
+        self.isStopped = True
 
     def __exit__(self):
 
@@ -83,13 +84,13 @@ if __name__ == '__main__':
 
         if command == 'exit':
 
+            server.stop()
+
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             s.connect((server.host, server.port))
-            socketHelper.sendData(s, 'exit'.encode())
-
-            if socketHelper.recvData(s).decode() != 'exit':
-                continue
 
             s.shutdown(socket.SHUT_RDWR)
             s.close()
             break
+
+    server.join()
