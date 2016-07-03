@@ -5,16 +5,22 @@ import os
 import raspEYE
 import socket
 import socketHelper
+import threading
 import time
 
 
-class Server:
+class Server(threading.Thread):
 
     def __init__(self, host, port):
 
+        threading.Thread.__init__(self)
+
+        self.host = host
+        self.port = port
+
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.s.bind((host, port))
-        self.s.listen(1)
+        self.s.bind((self.host, self.port))
+        self.s.listen(2)
 
         print('Listening to port ' + str(port))
 
@@ -31,7 +37,14 @@ class Server:
 
             command = command.split(' ')
 
-            if command[0] == 'capture':
+            if command[0] == 'exit':
+
+                socketHelper.sendData(c, 'exit'.encode())
+
+                self.s.shutdown(socket.SHUT_RDWR)
+                self.s.close()
+
+            elif command[0] == 'capture':
 
                 fileName = 'image ' + datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S') + '.png'
                 raspEYE.takePicture(fileName, sec=0, res=(1000, 750), bw=(True if 'true' in command else False))
@@ -55,5 +68,22 @@ class Server:
 
 if __name__ == '__main__':
 
-    server = Server('192.168.1.150', 12345)
-    server.run()
+    server = Server('192.168.1.15', 12345)
+    server.start()
+
+    while True:
+
+        command = input('Enter EXIT to quit: ').lower()
+
+        if command == 'exit':
+
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            s.connect((server.host, server.port))
+            socketHelper.sendData(s, 'exit'.encode())
+
+            if socketHelper.recvData(s).decode() != 'exit':
+                continue
+
+            s.shutdown(socket.SHUT_RDWR)
+            s.close()
+            break
