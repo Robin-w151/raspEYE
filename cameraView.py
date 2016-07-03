@@ -46,6 +46,7 @@ class CameraView:
         self.infoLabel.place(relx=0.5, rely=0.97, anchor=tkinter.CENTER)
 
         self.grayVar = tkinter.BooleanVar()
+        self.grayVar.set(True)
         self.checkBox = tkinter.Checkbutton(self.frame, text='GrayScale', variable=self.grayVar, font=self.font)
         self.checkBox.configure(background='light gray')
         self.checkBox.place(relx=0.88, rely=0.91, anchor=tkinter.CENTER)

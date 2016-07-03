@@ -5,7 +5,6 @@ import os
 import raspEYE
 import socket
 import socketHelper
-import threading
 import time
 
 
