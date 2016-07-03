@@ -22,6 +22,7 @@ class Server(threading.Thread):
         self.s.bind((self.host, self.port))
         self.s.listen(2)
 
+        print('IP Address: ' + host)
         print('Listening to port ' + str(port))
 
     def run(self):
