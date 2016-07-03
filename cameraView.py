@@ -16,6 +16,8 @@ class CameraView:
         self.currentFileName = None
         self.fileList = []
 
+        self.font = ('Arial', 14)
+
         self.frame = tkinter.Frame(master=self.main.window, width=1000, height=870)
         self.frame.configure(background='light gray')
 
@@ -27,21 +29,26 @@ class CameraView:
         self.imageLabel.place(relx=0.5, rely=0.43, anchor=tkinter.CENTER)
         self.imageLabel.image = img
 
-        self.captureButton = tkinter.Button(self.frame, text='Capture', font=('Arial', 14), command=self.captureImage)
+        self.captureButton = tkinter.Button(self.frame, text='Capture', font=self.font, command=self.captureImage)
         self.captureButton.config(height=2, width=15)
         self.captureButton.place(relx=0.5, rely=0.91, anchor=tkinter.CENTER)
 
-        self.saveButton = tkinter.Button(self.frame, text='Save', font=('Arial', 14), command=self.saveImage)
+        self.saveButton = tkinter.Button(self.frame, text='Save', font=self.font, command=self.saveImage)
         self.saveButton.config(height=2, width=15)
         self.saveButton.place(relx=0.3, rely=0.91, anchor=tkinter.CENTER)
 
-        self.deleteButton = tkinter.Button(self.frame, text='Delete', font=('Arial', 14), command=self.deleteImage)
+        self.deleteButton = tkinter.Button(self.frame, text='Delete', font=self.font, command=self.deleteImage)
         self.deleteButton.config(height=2, width=15)
         self.deleteButton.place(relx=0.7, rely=0.91, anchor=tkinter.CENTER)
 
-        self.infoLabel = tkinter.Label(self.frame, textvariable=self.info, font=('Arial', 14), width=20)
+        self.infoLabel = tkinter.Label(self.frame, textvariable=self.info, font=self.font, width=20)
         self.infoLabel.configure(background='light gray')
         self.infoLabel.place(relx=0.5, rely=0.97, anchor=tkinter.CENTER)
+
+        self.grayVar = tkinter.BooleanVar()
+        self.checkBox = tkinter.Checkbutton(self.frame, text='GrayScale', variable=self.grayVar, font=self.font)
+        self.checkBox.configure(background='light gray')
+        self.checkBox.place(relx=0.88, rely=0.91, anchor=tkinter.CENTER)
 
     def start(self):
 
@@ -94,7 +101,7 @@ class CameraView:
         self.info.set('Sending command')
         self.infoLabel.update_idletasks()
 
-        command = 'capture true'
+        command = 'capture ' + ('true' if self.grayVar.get() else 'false')
         socketHelper.sendData(s, command.encode())
 
         self.info.set('Capturing')
