@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import datetime
+import netifaces
 import os
 import raspEYE
 import socket
@@ -69,7 +70,9 @@ class Server(threading.Thread):
 
 if __name__ == '__main__':
 
-    server = Server(socket.gethostbyname(socket.gethostname()), 12345)
+    ip = netifaces.ifaddresses('eth0')[2][0]['addr']
+
+    server = Server(ip, 12345)
     server.start()
 
     while True:
