@@ -102,7 +102,7 @@ class CameraView:
         self.info.set('Sending command')
         self.infoLabel.update_idletasks()
 
-        command = 'capture ' + ('true' if self.grayVar.get() else 'false')
+        command = 'capture'
         socketHelper.sendData(s, command.encode())
 
         self.info.set('Capturing')

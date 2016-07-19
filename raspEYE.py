@@ -1,33 +1,20 @@
 #!/usr/bin/env python3
 
-import io
 import picamera
 import sys
 import time
 
-from PIL import Image
 
-
-def takePicture(filename="image.png", sec=1, res=(2592, 1944), bw=True):
+def takePicture(filename="image.png", sec=1, res=(2592, 1944)):
 
     with picamera.PiCamera() as camera:
-
-        stream = io.BytesIO()
 
         camera.resolution = res
         camera.start_preview()
 
         # Camera warm-up time
         time.sleep(sec)
-        camera.capture(stream, format='png')
-
-        stream.seek(0)
-        image = Image.open(stream)
-
-        if bw:
-            image = image.convert('LA')
-
-        image.save(filename)
+        camera.capture(filename, format='png')
 
 if __name__ == "__main__":
 

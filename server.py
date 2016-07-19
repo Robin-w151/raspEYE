@@ -48,12 +48,12 @@ class Server(threading.Thread):
 
             command = command.split(' ')
 
-            if command[0] == 'capture':
+            if command == 'capture':
 
                 fileName = 'image ' + datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S') + '.png'
 
                 self.flash.on()
-                raspEYE.takePicture(fileName, sec=0, res=(1000, 750), bw=(True if 'true' in command else False))
+                raspEYE.takePicture(fileName, sec=0, res=(1000, 750))
                 self.flash.off()
                 print('Picture taken')
 
