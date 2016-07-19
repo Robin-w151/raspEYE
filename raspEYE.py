@@ -18,7 +18,7 @@ def takePicture(filename="image.png", sec=1, res=(2592, 1944), bw=True, flash=No
         camera.start_preview()
 
         # Turn flash on
-        if use_flash:
+        if flash is not None and use_flash:
             print('Flash on')
             flash.on()
 
@@ -27,7 +27,7 @@ def takePicture(filename="image.png", sec=1, res=(2592, 1944), bw=True, flash=No
         camera.capture(stream, format='png')
 
         # Turn flash off
-        if use_flash:
+        if flash is not None and use_flash:
             print('Flash off')
             flash.off()
 
