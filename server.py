@@ -46,8 +46,6 @@ class Server(threading.Thread):
             if command != '':
                 print('Command received: ' + command)
 
-            command = command.split(' ')
-
             if command == 'capture':
 
                 fileName = 'image ' + datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S') + '.png'
