@@ -4,6 +4,8 @@ import socketHelper
 import sys
 import tkinter
 
+from PIL import Image
+
 
 class CameraView:
 
@@ -132,6 +134,11 @@ class CameraView:
 
         s.shutdown(socket.SHUT_RDWR)
         s.close()
+
+        if self.grayVar.get():
+            img = Image.open(fileName)
+            img = img.convert('LA')
+            img.save(fileName)
 
         img = tkinter.PhotoImage(file='Saves/' + fileName)
         # img.subsample(1000, 750)
