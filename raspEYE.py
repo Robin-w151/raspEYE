@@ -8,7 +8,7 @@ import time
 from PIL import Image
 
 
-def takePicture(filename="image.png", sec=1, res=(2592, 1944), bw=True, flash=None, use_flash=True):
+def takePicture(filename="image.png", sec=1, res=(2592, 1944), bw=True):
 
     with picamera.PiCamera() as camera:
 
@@ -17,19 +17,9 @@ def takePicture(filename="image.png", sec=1, res=(2592, 1944), bw=True, flash=No
         camera.resolution = res
         camera.start_preview()
 
-        # Turn flash on
-        if flash is not None and use_flash:
-            print('Flash on')
-            flash.on()
-
         # Camera warm-up time
         time.sleep(sec)
         camera.capture(stream, format='png')
-
-        # Turn flash off
-        if flash is not None and use_flash:
-            print('Flash off')
-            flash.off()
 
         stream.seek(0)
         image = Image.open(stream)
