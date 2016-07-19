@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import datetime
+import flash
 import netifaces
 import os
 import raspEYE
@@ -25,6 +26,8 @@ class Server(threading.Thread):
         self.s.bind((self.host, self.port))
         self.s.listen(2)
 
+        self.flash = flash.Flash(3)
+
         print('IP Address: ' + host)
         print('Listening to port ' + str(port))
 
@@ -48,7 +51,7 @@ class Server(threading.Thread):
             if command[0] == 'capture':
 
                 fileName = 'image ' + datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S') + '.png'
-                raspEYE.takePicture(fileName, sec=0, res=(1000, 750), bw=(True if 'true' in command else False))
+                raspEYE.takePicture(fileName, sec=0, res=(1000, 750), bw=(True if 'true' in command else False), flash=flash, use_flash=True)
                 print('Picture taken')
 
                 print('Start sending picture...')
