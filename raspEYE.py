@@ -36,6 +36,7 @@ def takePicture(filename="image.png", sec=1, res=(2592, 1944), bw=True, use_flas
         # Turn flash on
         flash = Flash(gpio_pin=3)
         if use_flash:
+            print('Flash on')
             flash.on()
 
         # Camera warm-up time
@@ -44,6 +45,7 @@ def takePicture(filename="image.png", sec=1, res=(2592, 1944), bw=True, use_flas
 
         # Turn flash off
         if use_flash:
+            print('Flash off')
             flash.off()
 
         stream.seek(0)
