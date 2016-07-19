@@ -56,5 +56,5 @@ class Application:
 
 if __name__ == "__main__":
 
-    application = Application('192.168.1.150', 12345)
+    application = Application('192.168.0.150', 12345)
     application.start()

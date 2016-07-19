@@ -16,7 +16,7 @@ class LoginView:
         self.ipLabel.place(relx=0.40, rely=0.45, anchor=tkinter.W)
 
         self.ipText = tkinter.StringVar()
-        self.ipText.set('192.168.1.150')
+        self.ipText.set('192.168.0.150')
         self.ipEntry = tkinter.Entry(self.frame, width=12, font=self.font, textvariable=self.ipText)
         self.ipEntry.place(relx=0.55, rely=0.45, anchor=tkinter.CENTER)
 
