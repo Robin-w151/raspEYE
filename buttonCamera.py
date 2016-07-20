@@ -17,7 +17,7 @@ def main():
         print('Capturing...')
 
         fileName = 'image ' + datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S') + '.png'
-        raspEYE.takePicture(filename=fileName, sec=0, res=(2592, 1944), bw=False)
+        raspEYE.takePicture(filename=fileName, sec=0, res=(2592, 1944))
 
         print('Finished')
 
