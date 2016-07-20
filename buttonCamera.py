@@ -15,17 +15,17 @@ def main():
 
     while True:
 
-        BUTTON.wait_for_press()
+        # BUTTON.wait_for_press()
 
         print('Capturing...')
 
         fileName = 'image ' + datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S') + '.png'
 
-        FLASH.on()
+        # FLASH.on()
 
-        raspEYE.takePicture(filename=fileName, sec=0, res=(2592, 1944))
+        raspEYE.takePicture(fileName, sec=0, res=(1000, 750))
 
-        FLASH.off()
+        # FLASH.off()
 
         print('Finished')
 
