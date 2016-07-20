@@ -15,8 +15,7 @@ def main():
 
     while True:
 
-        # BUTTON.wait_for_press()
-        input('Enter ajfdlökas: ')
+        BUTTON.wait_for_press()
 
         print('Capturing...')
 
