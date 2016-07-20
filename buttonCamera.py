@@ -11,7 +11,7 @@ def main():
 
     while True:
 
-        button = Button(4)
+        button = Button(7)
         button.wait_for_press()
 
         print('Capturing...')
