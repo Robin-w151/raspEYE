@@ -10,8 +10,8 @@ from gpiozero import Button
 
 def main():
 
-    FLASH = flash.Flash(5)
-    BUTTON = Button(7)
+    FLASH = flash.Flash(3)
+    BUTTON = Button(4)
 
     while True:
 
