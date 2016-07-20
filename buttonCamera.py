@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import flash
 import raspEYE
 import time
 import datetime
@@ -9,15 +10,22 @@ from gpiozero import Button
 
 def main():
 
+    FLASH = flash.Flash(5)
+    BUTTON = Button(7)
+
     while True:
 
-        button = Button(7)
-        button.wait_for_press()
+        BUTTON.wait_for_press()
 
         print('Capturing...')
 
         fileName = 'image ' + datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S') + '.png'
+
+        FLASH.on()
+
         raspEYE.takePicture(filename=fileName, sec=0, res=(2592, 1944))
+
+        FLASH.off()
 
         print('Finished')
 
