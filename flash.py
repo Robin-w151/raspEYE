@@ -1,16 +1,18 @@
+
+import time
+
 from gpiozero import LED
 
 
-class Flash:
+class Flash(LED):
 
     def __init__(self, gpio_pin):
+        LED.__init__(self, gpio_pin)
 
-        self.led = LED(3)
+    def timer(self, seconds):
 
-    def on(self):
+        self.on()
 
-        self.led.on()
+        time.sleep(seconds)
 
-    def off(self):
-
-        self.led.off()
+        self.off()
