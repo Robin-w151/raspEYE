@@ -11,7 +11,7 @@ from gpiozero import Button
 def main():
 
     FLASH = flash.Flash(3)
-    BUTTON = Button(4)
+    BUTTON = Button(14)
 
     while True:
 
@@ -21,11 +21,11 @@ def main():
 
         fileName = 'image ' + datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S') + '.png'
 
-        # FLASH.on()
+        FLASH.on()
 
         raspEYE.takePicture(fileName, sec=0, res=(1000, 750))
 
-        # FLASH.off()
+        FLASH.off()
 
         print('Finished')
 
